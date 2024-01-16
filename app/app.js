@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-
+const userRouter = require('../router/userRouter');
+const { connect } = require('../db/db');
 const app = express();
 // /use middleware to form our contracts for incoming requests, JSON payloads Only!!
 app.use(express.json());
@@ -13,6 +14,7 @@ app.get('/', (req,res,next) => {
     res.status(200).json({message: "Service is Running"});
 });
 //router Links
+app.use('/users', userRouter);
 
 //bad url or error  handle method with middleware
 app.use((req, res, next)=>{
@@ -27,6 +29,6 @@ app.use((error, req, res, next)=>{
         status: error.status
     }})
 });
-
+connect();
 module.exports = app;
 
