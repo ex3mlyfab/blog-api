@@ -4,9 +4,10 @@ const app = require("../../index")
 require("dotenv").config();
 const { reqaddBlog, requpdateBlog } = require("../utils/data/blog.test.data.js");
 
-const token = process.env.JWT_SECRET;
-let blogId =
+const token = "b0281f27533adda0bb43a1300a9046af8490e59b24c895c333dafc3759bffafe";
+let blogId;
 //Create blog Test 
+
 describe("POST /api/blog/create", () => {
     test("should create a blog", async () => {
         return request(app)
@@ -32,7 +33,7 @@ describe("GET /api/blog/get", () => {
 });
 
 describe("GET /api/blog/show/:id", () => {
-    test('should return all blogs', async () => {
+    test('should return a blog', async () => {
         return request(app)
             .get(`/api/blog/show/${blogId}`)
             .expect(200)
@@ -51,16 +52,18 @@ describe("PUT /api/blog/update/:id", () => {
 });
 
 describe("Checking authorization middleware", () => {
-    test("should create a blog", async () => {
+    test("check authorization middleware", async () => {
         return request(app)
             .post("/api/blog/create")
+            .set('Authorization',  `Bearer ${token}`)
             .send(reqaddBlog)
             .expect(401)
     });
 });
 
+
 describe("DELETE /api/blog/delete/:id", () => {
-    test("should create a blog", async () => {
+    test("should delete a blog", async () => {
         return request(app)
             .delete(`/api/blog/delete/${blogId}`)
             .set('Authorization', `Bearer ${token}`)
