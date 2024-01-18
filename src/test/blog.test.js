@@ -4,8 +4,8 @@ const app = require("../../index")
 require("dotenv").config();
 const { reqaddBlog, requpdateBlog } = require("../utils/data/blog.test.data.js");
 
-const token = "{YOUR TOKEN>}" 
-let blogId = 
+const token = process.env.JWT_SECRET;
+let blogId =
 //Create blog Test 
 describe("POST /api/blog/create", () => {
     test("should create a blog", async () => {
@@ -54,7 +54,7 @@ describe("Checking authorization middleware", () => {
     test("should create a blog", async () => {
         return request(app)
             .post("/api/blog/create")
-            .send(reqaddblog)
+            .send(reqaddBlog)
             .expect(401)
     });
 });

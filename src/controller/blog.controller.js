@@ -7,7 +7,8 @@ const asyncHandler = require("express-async-handler");
  inside of async express routes and passing them to your express error handlers.
   =============================================================================
 */
-
+//Imporing file system library 
+const fs = require("fs");
 //Importing the blog model to the controller 
 const blogModel = require("../models/blog.model");
 
@@ -39,13 +40,13 @@ const get = asyncHandler(async (req, res) => {
     try {
         let blog;
         if(content){// I am throwing a condition that if the request has a query of author in it
-            blog = await Blogs.find({ content:{ $regex: `${content}`, $options: 'i' }}).skip(skip).limit(limit);// every request has a value(like this /?author:john) which we will have to find the post made by the author: john
+            blog = await blogModel.find({ content:{ $regex: `${content}`, $options: 'i' }}).skip(skip).limit(limit);// every request has a value(like this /?author:john) which we will have to find the post made by the author: john
         }
         else if(title){
-            blog = await Blogs.find({title:{ $regex: `${content}`, $options: 'i' }}.skip(skip).limit(limit)); // the curly braces in the bracket indicates that it's an object
+            blog = await blogModel.find({title:{ $regex: `${content}`, $options: 'i' }}.skip(skip).limit(limit)); // the curly braces in the bracket indicates that it's an object
         }
        else{ 
-         blog = await Blogs.find({}).skip(skip).limit(limit);
+         blog = await blogModel.find({}).skip(skip).limit(limit);
         }
     //     blog.read_count += 1
     //    await blog.save()
